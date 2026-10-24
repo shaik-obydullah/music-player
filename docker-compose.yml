@@ -1,0 +1,17 @@
+services:
+  android_env:
+    image: mobile-pos-android_env:latest
+    container_name: music_android_env
+    stdin_open: true
+    tty: true
+    working_dir: /app
+    privileged: true          # USB access for adb -> your tab
+    network_mode: host        # Metro + adb + LAN share host network
+    environment:
+      - ANDROID_ADB_SERVER_PORT=5038   # avoid clash with host's root adb on 5037
+    volumes:
+      - ./MusicPlayer:/app
+      - gradle_cache:/root/.gradle   # persists deps between rebuilds
+
+volumes:
+  gradle_cache:
